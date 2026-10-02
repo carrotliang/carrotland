@@ -154,3 +154,19 @@
 在 Xcode 选择专用 iPhone 模拟器，运行 IslandClock scheme 的测试。命令行步骤见项目 README。集成测试会清理该模拟器上本 App 的实时活动，应避免在正在使用时钟的个人手机执行测试。
 
 Xcode 完整测试结果位于本机临时目录 `/tmp/IslandClock-IntegrationTests.xcresult`，可能随系统清理消失。此文档保留测试范围和结果，重新执行测试可生成新的结果包。
+
+## 萝卜时刻：图标与名称更新
+
+2026-10-03 07:04（Asia/Shanghai）更新：采用用户确认的萝卜时钟机器人图标，主 App 和 WidgetKit 扩展的显示名均改为“萝卜时刻”，权限提示同步使用新名称。Bundle ID 保持 `com.kunyaoliang.carrotland`，通过覆盖安装更新原应用，没有卸载。
+
+- 图标原稿保存在 `docs/design/carrot-clock-icon-v1.png`；生成脚本输出 1024 × 1024、sRGB、不含透明通道的 AppIcon。已目视检查原稿转换结果和安装包内的 120 × 120 图标。
+- Xcode 26.6 的 Release 真机签名构建通过，`codesign --verify --deep --strict` 通过；主 App 和内嵌扩展的最终 Info.plist 均已核实显示名为“萝卜时刻”。
+- `devicectl` 安装成功；安装前回读名称为“灵动时钟”，安装后相同 Bundle ID 的名称为“萝卜时刻”。目标为已配对的 iPhone 16 Pro。
+- 启动请求因手机锁屏被系统以 `Locked` 拒绝，解锁后可手动打开。本次没有真机桌面截图，不能将安装与元数据核验视为真机视觉验收。
+- 本次仅涉及图标和名称文案，未修改时钟功能，未重复运行格式或 ActivityKit 生命周期测试。
+
+构建日志：`/tmp/carrotland-icon-name-release.log`；安装和回读记录：`/tmp/carrotland-icon-name-install.json`、`/tmp/carrotland-after-install.json`；启动结果：`/tmp/carrotland-icon-name-launch.json`。签名构建产物位于 `/tmp/Carrotland-IconName-20261003/Build/Products/Release-iphoneos/IslandClock.app`，临时文件可能被系统清理。
+
+2026-10-03 07:08（Asia/Shanghai）再次同步：核对当前名称、图标和原 Bundle ID 后，重新完成 Release 构建与严格签名检查，并覆盖安装到同一台 iPhone 16 Pro。手机端回读名称为“萝卜时刻”；07:08:23 启动命令成功，本次启动验证已通过，补充了上一轮因锁屏未能完成的启动检查。尚未新增真机桌面截图或功能交互验收。
+
+本次日志与结果：`/tmp/carrotland-icon-name-resync-release.log`、`/tmp/carrotland-icon-name-resync-install.json`、`/tmp/carrotland-icon-name-resync-apps.json`、`/tmp/carrotland-icon-name-resync-launch.json`。

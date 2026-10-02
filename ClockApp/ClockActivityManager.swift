@@ -65,7 +65,7 @@ final class ClockActivityManager {
         errorMessage = nil
         activitiesEnabled = ActivityAuthorizationInfo().areActivitiesEnabled
         guard activitiesEnabled else {
-            errorMessage = "实时活动未开启。请在系统设置中允许“灵动时钟”使用实时活动，然后重试。"
+            errorMessage = "实时活动未开启。请在系统设置中允许“萝卜时刻”使用实时活动，然后重试。"
             return false
         }
 

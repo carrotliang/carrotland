@@ -1,4 +1,4 @@
-# 灵动时钟
+# 萝卜时刻
 
 供个人使用的原生 iPhone 时钟，支持 iOS 26 及以上。打开 App 点击“运行”，成功后 App 自动返回主屏幕，灵动岛左侧显示 `HH:mm`，右侧显示 `ss.SSS`。
 
@@ -7,7 +7,7 @@
    时:分                           秒.毫秒
 ```
 
-首页不显示“灵动时钟”和“灵动岛区域”标题，直接在同一行实时展示常规形态和最小形态，不需要先启动活动。边框直接沿黑色灵动岛外形绘制，没有外侧卡片；最小形态只展示两行数字胶囊，不展示左侧的空白灵动岛。两种预览使用原始字号，不再整体缩小。实际灵动岛常规形态的时分为 14 pt、秒为 14 pt、毫秒为 12 pt；右侧秒与毫秒沿同一文字基线排列。与其他活动并排时，最小形态分两行居中显示：上方两位秒数为 12 pt，下方三位毫秒为 8 pt，均补零；例如上 `25`、下 `123` 表示 `25.123` 秒。首页预览与扩展共用数字显示组件，预览的黑色外形为示意，实际灵动岛的外形与位置由系统决定。
+首页不显示应用名称和“灵动岛区域”标题，直接在同一行实时展示常规形态和最小形态，不需要先启动活动。边框直接沿黑色灵动岛外形绘制，没有外侧卡片；最小形态只展示两行数字胶囊，不展示左侧的空白灵动岛。两种预览使用原始字号，不再整体缩小。实际灵动岛常规形态的时分为 14 pt、秒为 14 pt、毫秒为 12 pt；右侧秒与毫秒沿同一文字基线排列。与其他活动并排时，最小形态分两行居中显示：上方两位秒数为 12 pt，下方三位毫秒为 8 pt，均补零；例如上 `25`、下 `123` 表示 `25.123` 秒。首页预览与扩展共用数字显示组件，预览的黑色外形为示意，实际灵动岛的外形与位置由系统决定。
 
 展开视图和锁屏卡片显示完整的 `HH:mm:ss.SSS`。所有时间固定 24 小时制、等宽数字、三位秒小数，来自手机系统。点击“停止”立即结束实时活动，完成后同样自动返回主屏幕。运行失败时留在 App 内显示原因。
 
@@ -28,7 +28,8 @@
 - `ClockWidget`：灵动岛的常规 / 最小 / 展开布局及锁屏卡片。
 - `Shared`：ActivityAttributes、系统日期格式、自动更新的时间文本，以及首页预览与灵动岛共用的显示组件。
 - `ClockTests`：实际格式输出、时间边界和真实 ActivityKit 会话集成测试。
-- `Scripts/generate-app-icon.swift`：使用 CoreGraphics 生成工程内的时钟图标，无外部依赖。
+- `docs/design/carrot-clock-icon-v1.png`：已确认的萝卜时钟机器人图标原稿。
+- `Scripts/generate-app-icon.swift`：使用 CoreGraphics 将原稿转换为 1024 × 1024、不含透明通道的 App 图标，无外部依赖。
 
 使用 SwiftUI、ActivityKit、WidgetKit 和 Foundation。没有服务器、账号系统、网络校时、推送或后台保活。两侧分别通过 `TimeDataSource.currentDate` 和系统内置 `Date.FormatStyle` 自动更新；三位小数使用 `.secondFraction(.fractional(3))`。
 
@@ -56,7 +57,7 @@ xcodebuild -project IslandClock.xcodeproj -scheme IslandClock \
   -derivedDataPath /tmp/IslandClock-DerivedData CODE_SIGNING_ALLOWED=NO test
 ```
 
-真机版本在 Xcode 中选择团队后构建。图标需要修改时，在仓库根目录运行：
+真机版本在 Xcode 中选择团队后构建。更新图标原稿后，在仓库根目录运行以下命令重新生成 App 图标：
 
 ```sh
 swift Scripts/generate-app-icon.swift

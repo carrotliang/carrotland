@@ -1,0 +1,13 @@
+Status: Icon approved by the user on 2026-10-03. Source artwork for the app icon.
+Generator: built-in image_gen
+
+Use case: logo-brand.
+Asset type: a single production-quality iPhone app icon concept for a personal clock app, square 1024 x 1024, full-bleed opaque artwork.
+Primary request: design one charming, highly legible carrot clock mascot app icon based on the supplied carrot character references. This is a new icon design, not a contact sheet or a phone mockup.
+Input images: image 1 is a reference for the orange carrot robot identity and cheerful face; image 2 is a reference for natural green leaves and the warm cream palette; image 3 is a reference for the rounded carrot silhouette and friendly expression. These are visual references only.
+Subject: one large, centered, plump orange carrot robot with a rounded head tapering to a short carrot tip. Three broad green leaves at the top, glossy dark oval eyes with tiny highlights, a simple warm curved smile and restrained rosy cheeks. Two very short, simple rounded mechanical arms tucked close to the body. Integrate a small but clear circular clock dial into its lower torso, with a dark deep-teal face and just two thick ivory hands at roughly ten past ten; the clock is part of the mascot, never a separate floating badge. Use only four minimal hour ticks, no numbers. Keep the mascot coherent and compact, with the face the main focus.
+Style/medium: polished contemporary character illustration, crisp smooth contours, gently sculpted dimensional shading, restrained dark warm outlines; preserve the reference character's playful personality while dramatically simplifying fine machinery, scratches and texture for small-size readability. Not photorealistic, not a complex toy scene.
+Scene/backdrop: solid warm ivory / pale cream edge-to-edge background inspired by the supplied illustrations, with at most an extremely subtle warm center glow. Tiny soft grounding shadow below the carrot.
+Composition: straight-on, visually balanced, mascot fills approximately 80 percent of the canvas height and 72 percent width including arms. Broad bold shapes and spacious facial features. Leaf tips, arms and carrot tip remain well inside an iOS rounded-corner safe area.
+Color palette: saturated carrot orange, fresh leaf green, warm ivory, deep teal used sparingly for eyes, contours and dial.
+Constraints: exactly one icon; full square background to every edge; no pre-rendered rounded outer corners, no external margin or border, no white sticker contour, no letters, no words, no numerals, no watermark, no sparkles, no extra props, no phone frame, no multiple variants. Preserve the orange carrot and green crown identity.

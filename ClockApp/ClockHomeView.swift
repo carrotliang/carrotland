@@ -62,7 +62,7 @@ struct ClockHomeView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Label("暂时无法显示", systemImage: "exclamationmark.circle")
                                 .font(.headline)
-                            Text(manager.errorMessage ?? "请在系统设置中允许“灵动时钟”使用实时活动，再返回重试。")
+                            Text(manager.errorMessage ?? "请在系统设置中允许“萝卜时刻”使用实时活动，再返回重试。")
                                 .font(.subheadline)
                             if !manager.activitiesEnabled {
                                 Button("打开设置") {

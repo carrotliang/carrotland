@@ -173,7 +173,7 @@
 				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kunyaoliang.carrotland.ClockWidget";
 				"CURRENT_PROJECT_VERSION" = "1";
-				"INFOPLIST_KEY_CFBundleDisplayName" = "灵动时钟";
+				"INFOPLIST_KEY_CFBundleDisplayName" = "萝卜时刻";
 				"SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" = "NO";
 				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG $(inherited)";
 				"SUPPORTS_MACCATALYST" = "NO";
@@ -223,7 +223,7 @@
 				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kunyaoliang.carrotland.ClockWidget";
 				"CURRENT_PROJECT_VERSION" = "1";
-				"INFOPLIST_KEY_CFBundleDisplayName" = "灵动时钟";
+				"INFOPLIST_KEY_CFBundleDisplayName" = "萝卜时刻";
 				"SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" = "NO";
 				"SUPPORTS_MACCATALYST" = "NO";
 				"TARGETED_DEVICE_FAMILY" = "1";
@@ -250,7 +250,7 @@
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kunyaoliang.carrotland";
 				"CURRENT_PROJECT_VERSION" = "1";
 				"ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME" = "AccentColor";
-				"INFOPLIST_KEY_CFBundleDisplayName" = "灵动时钟";
+				"INFOPLIST_KEY_CFBundleDisplayName" = "萝卜时刻";
 				"SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" = "NO";
 				"INFOPLIST_KEY_UILaunchScreen_Generation" = "YES";
 				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG $(inherited)";
@@ -310,7 +310,7 @@
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kunyaoliang.carrotland";
 				"CURRENT_PROJECT_VERSION" = "1";
 				"ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME" = "AccentColor";
-				"INFOPLIST_KEY_CFBundleDisplayName" = "灵动时钟";
+				"INFOPLIST_KEY_CFBundleDisplayName" = "萝卜时刻";
 				"SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" = "NO";
 				"INFOPLIST_KEY_UILaunchScreen_Generation" = "YES";
 				"SUPPORTS_MACCATALYST" = "NO";
