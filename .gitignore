@@ -66,3 +66,6 @@ DerivedData/
 build/
 *.xcresult
 *.xcarchive
+
+# Local iPhone installer preferences
+/Scripts/install.local.json

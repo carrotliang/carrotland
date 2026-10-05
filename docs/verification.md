@@ -381,6 +381,18 @@ Xcode 完整测试结果位于本机临时目录 `/tmp/IslandClock-IntegrationTe
 
 两次专用模拟器均已关闭、删除并回读设备列表确认移除；本轮开始前已存在的模拟器保持原状态。
 
+## 一键真机编译安装脚本
+
+2026-10-05（Asia/Shanghai）新增 `Scripts/install-to-iphone.py`，默认执行 Release 真机构建、严格签名校验、覆盖安装、手机端 Bundle ID 与版本回读，以及解锁状态下的启动。使用本地 Xcode 和 Python 3 标准库，无额外依赖；支持团队 / 设备选择、列出设备、仅构建和跳过启动。
+
+- 从当前工作区实际执行脚本，Xcode 构建成功，主 App 和嵌入扩展严格签名校验通过。
+- 最新源码（包含预览与操作按钮同行的布局）已覆盖安装到已配对 iPhone 16 Pro。安装及回读 JSON 均为 success，回读为“灵动萝卜”1.0（1）、原 Bundle ID。
+- 启动前手机未锁屏，启动命令及 JSON 均为 success。未新增真机视觉或活动交互验收。
+- 7 项脚本检查通过：排除模拟器、多设备和重名歧义、未配对及开发者模式关闭、Bundle ID / 版本回读不符、未知锁屏状态、stderr 警告不污染 JSON，以及构建失败后不继续安装。
+- `Scripts/install.local.json` 保存本机签名团队，已确认被 Git 忽略；构建产物和日志位于已忽略的 `.build/iphone/`，未将设备标识或团队配置写入公开脚本。
+
+本次真实运行日志目录：`.build/iphone/logs/run-i00ta1tv/`；构建日志为 `build.log`，签名校验为 `verify-signature.log`，安装、回读和启动证据分别为 `install.json`、`installed-app.json`、`launch.json`。脚本检查命令：`python3 Scripts/test_install_to_iphone.py`。
+
 ## 无用定义与重复恢复逻辑清理
 
 2026-10-06（Asia/Shanghai）在现有未提交工作上完成调用链核对与清理：
@@ -388,7 +400,8 @@ Xcode 完整测试结果位于本机临时目录 `/tmp/IslandClock-IntegrationTe
 - 删除自然时间管理器中不再被界面消费的 `statusMessage`、仅测试读取的 `startedAt` 缓存及相关赋值；保留活动属性中的 `startedAt`，用于选择最新会话。
 - 删除两种活动没有实际消费者的 `sessionID`，继续使用 ActivityKit 的活动 ID 区分会话；删除仅测试使用的 `secondMillisecond` 格式分支，改为验证界面实际使用的秒与毫秒分段格式。
 - 由 `IslandActivityCoordinator.restore()` 一次完成跨类型去重、自然时间内容刷新及管理器状态同步，删除两个管理器的恢复入口、首页转发方法和停止时重复清理；合并运行状态判定。保留串行入口、活动状态监听和计时起点。
+- 删除安装脚本 `verify_installed` 未被业务调用使用的返回值，保留安装回读校验与异常处理。
 
-验证结果：Xcode 27.0 在专用 iPhone 16 Pro / iOS 27.0 模拟器完成 App、Widget 扩展及测试构建，14 项 XCTest 全部通过、无跳过；覆盖时间格式、并发启动、跨类型切换、单活动恢复、计时器重置及自然时间内容刷新。两项旧会话恢复测试先解码含旧 `sessionID` 的 JSON，再创建实际 ActivityKit 会话验证恢复；这不等于已完成旧版 App 到新版 App 的真机升级验收。`git diff --check` 通过。
+验证结果：Xcode 27.0 在专用 iPhone 16 Pro / iOS 27.0 模拟器完成 App、Widget 扩展及测试构建，14 项 XCTest 全部通过、无跳过；覆盖时间格式、并发启动、跨类型切换、单活动恢复、计时器重置及自然时间内容刷新。两项旧会话恢复测试先解码含旧 `sessionID` 的 JSON，再创建实际 ActivityKit 会话验证恢复；这不等于已完成旧版 App 到新版 App 的真机升级验收。安装脚本 7 项检查与 `git diff --check` 通过。
 
 测试日志：`/tmp/carrotland-cleanup-20261006-tests.log`；结果包：`/tmp/Carrotland-Cleanup-20261006.xcresult`。本次未安装到真机，未新增视觉验收。临时文件可能被系统清理。

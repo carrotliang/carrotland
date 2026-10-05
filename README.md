@@ -30,6 +30,48 @@
 
 个人签名的有效期取决于账号和描述文件；签名到期时需通过 Xcode 重新安装。项目不保存开发团队、证书或私钥，签名团队由本机选择。
 
+### 一键编译并安装到手机
+
+在 macOS 上安装完整 Xcode，登录开发者账号，连接并信任 iPhone、开启开发者模式后运行（需要 Python 3，无第三方 Python 依赖）：
+
+```sh
+./Scripts/install-to-iphone.py
+```
+
+脚本默认执行 Release 真机构建、主 App 及嵌入扩展的严格签名检查、覆盖安装、手机端 Bundle ID 与版本回读，最后在手机未锁屏时启动 App。覆盖安装不会先卸载应用。构建或签名检查失败时不会继续安装；安装已成功但手机锁屏时，会明确提示解锁后手动打开。
+
+签名团队按 `--team`、环境变量 `DEVELOPMENT_TEAM`、本地配置、Xcode 工程设置的顺序选择。首次使用可传入团队 ID：
+
+```sh
+./Scripts/install-to-iphone.py --team YOURTEAMID
+```
+
+也可以在 `Scripts/install.local.json` 保存本机配置，之后直接运行脚本。该文件已被 Git 忽略，不应加入版本库：
+
+```json
+{
+  "team": "YOURTEAMID"
+}
+```
+
+默认选择唯一已配对的物理 iPhone，排除模拟器；多台手机或重名设备必须明确选择。设备按 `--device`、环境变量 `IPHONE_DEVICE`、本地配置的 `device` 字段选择，均接受名称、CoreDevice 标识符或 UDID。常用选项：
+
+```sh
+./Scripts/install-to-iphone.py --list-devices
+./Scripts/install-to-iphone.py --device '你的 iPhone 名称'
+./Scripts/install-to-iphone.py --build-only
+./Scripts/install-to-iphone.py --no-launch
+./Scripts/install-to-iphone.py --configuration Debug
+```
+
+构建会通过 `-allowProvisioningUpdates` 允许 Xcode 管理签名描述文件，需使用已登录的开发者账号。安装包位于 `.build/iphone/DerivedData/Build/Products/Release-iphoneos/IslandClock.app`，每次运行的日志和设备 JSON 结果位于 `.build/iphone/logs/run-*`。这些输出均在 Git 忽略范围内；脚本失败时会保留日志并返回非零退出码。脚本可从任意工作目录通过绝对路径运行。
+
+安装脚本的设备选择、回读及失败保护检查可单独执行，无需连接手机：
+
+```sh
+python3 Scripts/test_install_to_iphone.py
+```
+
 ## 工程结构
 
 - `ClockApp`：首页、权限与错误提示、实时活动生命周期管理。
