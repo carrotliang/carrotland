@@ -37,9 +37,8 @@ final class ClockFormatTests: XCTestCase {
     }
 
     func testFractionalDigitsRepresentCurrentSecond() {
-        let style = ClockFormat.style(for: .secondMillisecond, timeZone: utc)
-        XCTAssertEqual(style.format(date("2026-10-02T14:30:25.001Z")), "25.001")
-        XCTAssertEqual(style.format(date("2026-10-02T14:30:25.999Z")), "25.999")
+        XCTAssertEqual(compactSeconds(date("2026-10-02T14:30:25.001Z")), "25.001")
+        XCTAssertEqual(compactSeconds(date("2026-10-02T14:30:25.999Z")), "25.999")
     }
 
     func testMinimalSecondsAndMilliseconds() {
@@ -59,8 +58,14 @@ final class ClockFormatTests: XCTestCase {
     private func assertTime(_ iso: String, left: String, right: String, full: String, file: StaticString = #filePath, line: UInt = #line) {
         let value = date(iso)
         XCTAssertEqual(ClockFormat.style(for: .hourMinute, timeZone: utc).format(value), left, file: file, line: line)
-        XCTAssertEqual(ClockFormat.style(for: .secondMillisecond, timeZone: utc).format(value), right, file: file, line: line)
+        XCTAssertEqual(compactSeconds(value), right, file: file, line: line)
         XCTAssertEqual(ClockFormat.style(for: .full, timeZone: utc).format(value), full, file: file, line: line)
+    }
+
+    private func compactSeconds(_ date: Date) -> String {
+        // Match CompactSecondFace's separate second and millisecond fields.
+        ClockFormat.style(for: .second, timeZone: utc).format(date)
+            + "." + ClockFormat.style(for: .millisecond, timeZone: utc).format(date)
     }
 
     private func date(_ iso: String) -> Date {

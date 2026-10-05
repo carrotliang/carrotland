@@ -4,10 +4,11 @@ import Observation
 
 @MainActor
 @Observable
-final class ClockActivityManager: IslandActivityControlling, IslandActivityStateObserver {
+final class TimerActivityManager: IslandActivityControlling, IslandActivityStateObserver {
     private(set) var isRunning = false
     var isBusy: Bool { IslandActivityCoordinator.shared.isBusy }
     private(set) var activitiesEnabled = ActivityAuthorizationInfo().areActivitiesEnabled
+    private(set) var startedAt: Date?
     private(set) var errorMessage: String?
 
     @ObservationIgnored private var activityID: String?
@@ -31,7 +32,7 @@ final class ClockActivityManager: IslandActivityControlling, IslandActivityState
 
     func synchronizeActivityState() {
         activitiesEnabled = ActivityAuthorizationInfo().areActivitiesEnabled
-        let survivor = Activity<ClockAttributes>.activities
+        let survivor = Activity<TimerAttributes>.activities
             .filter { $0.activityState.isRunning }
             .max { $0.attributes.startedAt < $1.attributes.startedAt }
         if let survivor {
@@ -52,20 +53,20 @@ final class ClockActivityManager: IslandActivityControlling, IslandActivityState
                 return false
             }
             // Finish the previous type before requesting a new activity.
-            await coordinator.retainLatest(of: .clock)
+            await coordinator.retainLatest(of: .timer)
             synchronizeActivityState()
             if isRunning { return true }
             do {
                 let now = Date.now
                 let requested = try Activity.request(
-                    attributes: ClockAttributes(startedAt: now),
-                    content: ActivityContent(state: .init(refreshedAt: now), staleDate: nil),
+                    attributes: TimerAttributes(startedAt: now),
+                    content: ActivityContent(state: .init(), staleDate: nil),
                     pushType: nil
                 )
                 attach(requested)
                 return isRunning
             } catch {
-                errorMessage = "无法启动实时活动：\(error.localizedDescription)"
+                errorMessage = "无法启动计时器：\(error.localizedDescription)"
                 return false
             }
         }
@@ -76,21 +77,22 @@ final class ClockActivityManager: IslandActivityControlling, IslandActivityState
         let coordinator = IslandActivityCoordinator.shared
         return await coordinator.perform {
             errorMessage = nil
-            await coordinator.endAll(of: .clock)
+            await coordinator.endAll(of: .timer)
             await coordinator.retainLatest()
             return true
         }
     }
 
-    private func attach(_ newActivity: Activity<ClockAttributes>) {
-        isRunning = newActivity.activityState.isRunning
+    private func attach(_ activity: Activity<TimerAttributes>) {
+        isRunning = activity.activityState.isRunning
+        startedAt = activity.attributes.startedAt
         errorMessage = nil
-        guard activityID != newActivity.id else { return }
+        guard activityID != activity.id else { return }
         stateTask?.cancel()
-        activityID = newActivity.id
+        activityID = activity.id
         stateTask = Task { [weak self] in
-            for await state in newActivity.activityStateUpdates {
-                guard !Task.isCancelled, self?.activityID == newActivity.id else { return }
+            for await state in activity.activityStateUpdates {
+                guard !Task.isCancelled, self?.activityID == activity.id else { return }
                 if !state.isRunning {
                     self?.clearActivity()
                     return
@@ -103,6 +105,7 @@ final class ClockActivityManager: IslandActivityControlling, IslandActivityState
         stateTask?.cancel()
         stateTask = nil
         activityID = nil
+        startedAt = nil
         isRunning = false
     }
 }

@@ -3,9 +3,9 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
-// Package the approved artwork as the app's opaque 1024-pixel icon.
+// Package the selected artwork as the app's opaque 1024-pixel icon.
 let output = CommandLine.arguments.dropFirst().first ?? "ClockApp/Assets.xcassets/AppIcon.appiconset/AppIcon.png"
-let input = CommandLine.arguments.dropFirst(2).first ?? "docs/design/carrot-clock-icon-v1.png"
+let input = CommandLine.arguments.dropFirst(2).first ?? "docs/design/dynamic-carrot-icon-v1.png"
 guard let source = CGImageSourceCreateWithURL(URL(fileURLWithPath: input) as CFURL, nil),
       let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
     fatalError("Unable to read icon artwork: \(input)")

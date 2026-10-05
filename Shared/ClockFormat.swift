@@ -3,7 +3,6 @@ import Foundation
 enum ClockFormat {
     enum Part {
         case hourMinute
-        case secondMillisecond
         case second
         case millisecond
         case full
@@ -23,8 +22,6 @@ enum ClockFormat {
         switch part {
         case .hourMinute:
             return base.hour(.twoDigits(amPM: .omitted)).minute(.twoDigits)
-        case .secondMillisecond:
-            return base.second(.twoDigits).secondFraction(.fractional(3))
         case .second:
             return base.second(.twoDigits)
         case .millisecond:

@@ -8,6 +8,5 @@ struct ClockAttributes: ActivityAttributes {
         var refreshedAt: Date
     }
 
-    let sessionID: UUID
     let startedAt: Date
 }

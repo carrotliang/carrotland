@@ -27,16 +27,19 @@ final class ClockActivityTests: XCTestCase {
         XCTAssertEqual(activeIDs, initialIDs, "重复运行必须复用原有活动")
 
         let restoredManager = ClockActivityManager()
-        await restoredManager.restore()
+        let beforeRestore = Date.now
+        await IslandActivityCoordinator.shared.restore()
         XCTAssertTrue(restoredManager.isRunning)
-        XCTAssertEqual(restoredManager.startedAt, manager.startedAt)
         XCTAssertEqual(activeIDs, initialIDs, "恢复状态不应创建新活动")
+        let restoredActivity = try XCTUnwrap(Activity<ClockAttributes>.activities.first { initialIDs.contains($0.id) })
+        XCTAssertGreaterThanOrEqual(restoredActivity.content.state.refreshedAt, beforeRestore,
+                                    "恢复自然时间时仍应刷新内容，以便系统重建日期格式")
 
         let stopSucceeded = await restoredManager.stop()
         XCTAssertTrue(stopSucceeded)
         XCTAssertFalse(restoredManager.isRunning)
         XCTAssertTrue(activeIDs.isEmpty)
-        await manager.restore()
+        await IslandActivityCoordinator.shared.restore()
         XCTAssertFalse(manager.isRunning)
     }
 
